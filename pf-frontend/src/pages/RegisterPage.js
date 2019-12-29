@@ -1,8 +1,9 @@
 import React from 'react';
 import AuthForm from '../components/auth/AuthForm/index';
+import RegisterForm from '../containers/auth/RegisterForm';
 
 const RegisterPage = () => {
-  return <AuthForm type={'register'} marginTop={'35px'}></AuthForm>;
+  return <RegisterForm />;
 };
 
 export default RegisterPage;

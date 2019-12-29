@@ -82,7 +82,7 @@ const AuthTemplate = ({
         {type === 'register' ? (
           <InputForm
             type="password"
-            name="password"
+            name="passwordConfirm"
             placeholder="password"
             onChange={handleChange}
             value={form.passwordConfirm}
