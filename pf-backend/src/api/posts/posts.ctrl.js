@@ -1,106 +1,181 @@
-//id의 초기 값.
-let postId = 1;
+import Post from '../../models/post';
+import mongoose from 'mongoose';
+import Joi from 'joi';
 
-const posts = [
+const { ObjectId } = mongoose.Types;
+
+export const checkObjectId = (ctx, next) => {
+  const { id } = ctx.params;
+  if (!ObjectId.isValid(id)) {
+    ctx.status = 400;
+    return;
+  }
+  return next();
+};
+
+/*
+  POST api/posts
+
   {
-    id: 1,
     title: '제목',
-    body: '내용',
-  },
-];
+    description: '설명',
+    image: '이미지',
+    skils: '사용한 기술 및 언어',
+    part: '참여율',
+    tags: ['태그...'],
+  }
+*/
 
-/* 포스트 작성 POST / api/posts {title,body} */
+export const write = async ctx => {
+  const schema = Joi.object().keys({
+    //객체 여부 확인
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required(),
+    skils: Joi.string(),
+    part: Joi.string(),
+    tags: Joi.array().items(Joi.string()),
+  });
 
-exports.wirte = ctx => {
-  //REST API의 Request Body는 ctx.request.body에서 조회할 수 있다.
-  const { title, body } = ctx.request.body;
-  postId += 1; //기존 포스트값의 1을 더함
-  const post = { id: postId, title, body };
-  posts.push(post);
-  ctx.body = post;
-};
-
-/* 포스트 조회 GET / api/posts */
-exports.list = ctx => {
-  ctx.body = posts;
-};
-
-/* 특정 포스트 조회 GET / api/posts/:id */
-exports.read = ctx => {
-  const { id } = ctx.params;
-  //주어진 id값으로 포스트를 찾는다.
-  //파라미터로 받아 온 값은 문자열 이므로 파라미터를 숫자로 변환하거나
-  //비교할 p.id 값을 문자열로 변경해야 한다.
-  const post = posts.find(p => p.id.toString() === id);
-  //포스트가 없으면 Error를 반환
-  if (!post) {
-    ctx.status = 404;
-    ctx.body = {
-      message: '포스트가 존재하지 않습니다.',
-    };
-
+  const rs = Joi.validate(ctx.request.body, schema);
+  if (rs.error) {
+    ctx.status = 400;
+    ctx.body = rs.error;
     return;
   }
-  ctx.body = post;
+
+  const { title, description, image, skils, part, tags } = ctx.request.body;
+  const post = new Post({
+    title,
+    description,
+    image,
+    skils,
+    part,
+    tags,
+    user: ctx.state.user,
+  });
+  try {
+    await post.save();
+    ctx.body = post;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
 };
 
-/* 특정 포스트 제거 DELETE / api/posts/:id */
-exports.remove = ctx => {
-  const { id } = ctx.params;
-  //해당 id를 가진 post가 몇번째인지 확인
-  const idx = posts.findIndex(p => p.id.toString() === id);
-  //포스트가 없으면 Error를 반환
-  if (idx === -1) {
-    ctx.status = 404;
-    ctx.body = {
-      message: '포스트가 존재하지 않습니다.',
-    };
-    return;
-  }
-  //idx번째 아이템을 제거
-  posts.splice(idx, 1);
-  ctx.status = 204; // No Content
-};
+/*
+  GET /api/posts/?username=&tags=&page=
+  특정 사용자나, 태그가 있는 포스트만 조회
+*/
+export const list = async ctx => {
+  //query는 문자열이기 때문에 숫자로 변환해 주어야 합니다.
+  //값이 주어지지 않았다면 1을 기본으로 사용합니다.
+  const page = parseInt(ctx.query.page || '1', 10);
 
-/* 포스트 수정(교체) PUT /api/posts/:id {title,body} */
-exports.replace = ctx => {
-  //PUT 메서드는 전체 포스트 정보를 입력하여 데이터를 통째로 교체할때 사용
-  const { id } = ctx.params;
-  //해당 id를 가진 post가 몇 번째 인지 확인
-  const idx = posts.findIndex(p => p.id.toString() === id);
-  //포스트가 없으면 Error를 반환
-  if (idx === -1) {
-    ctx.status = 404;
-    ctx.body = {
-      message: '포스트가 존재하지 않습니다.',
-    };
+  if (page < 1) {
+    ctx.status = 400;
     return;
   }
-  //전체 객체를 덮어 씌움, 따라서 id를 제외한 기존 정보를 날리고, 객체를 새로 만듦
-  posts[idx] = {
-    id,
-    ...ctx.request.body,
+
+  const { tag, username } = ctx.query;
+  //tags, username값이 유효하면 객체에 넣고 아니면 넣지 않음
+  const query = {
+    ...(username ? { 'user.username': username } : {}),
+    ...(tag ? { tags: tag } : {}),
   };
-  ctx.body = posts[idx];
+
+  try {
+    //find()메서드 이후에 exec()메서드를 호출해야 서버에 쿼리를 요청
+    const posts = await Post.find()
+      .sort({ _id: -1 })
+      .limit(10)
+      .skip((page - 1) * 10)
+      .lean()
+      .exec();
+    const postCount = await Post.countDocuments(query).exec();
+    ctx.set('Last-Page', Math.ceil(postCount / 10));
+    ctx.body = posts.map(post => ({
+      ...post,
+      description:
+        post.description.length > 200
+          ? `${post.description.slice(0, 200)}...`
+          : post.description,
+    }));
+  } catch (e) {
+    ctx.throw(500, e);
+  }
 };
 
-/* 포스트 수정(특정 필드 변경) PATCH /api/posts/:id {title,body} */
-exports.update = ctx => {
+export const read = async ctx => {
+  ctx.body = ctx.state.post;
+};
+
+export const remove = async ctx => {
   const { id } = ctx.params;
-  //해당 id를 가진 posts가 몇번째 인지 확인
-  const idx = posts.findIndex(p => p.id.toString() === id);
-  //포스트가 없으면 Error를 반환
-  if (idx === -1) {
-    ctx.status = 404;
-    ctx.body = {
-      message: '포스트가 존재하지 않습니다.',
-    };
+  try {
+    await Post.findByIdAndRemove(id).exec();
+    ctx.status = 204; //성공은 했지만 응답할 데이터가 없을때.
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const update = async ctx => {
+  const { id } = ctx.params;
+  const schema = Joi.object().keys({
+    title: Joi.string(),
+    description: Joi.string(),
+    image: Joi.string(),
+    skils: Joi.string(),
+    part: Joi.string(),
+    tags: Joi.array().items(Joi.string()),
+  });
+
+  const rs = Joi.validate(ctx.request.body, schema);
+  if (rs.error) {
+    ctx.status = 400;
+    ctx.body = rs.error;
     return;
   }
-  //기존값에 정보를 덮어 씌움
-  posts[idx] = {
-    ...posts[idx],
-    ...ctx.request.body,
-  };
-  ctx.body = posts[idx];
+
+  try {
+    const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
+      new: true, // true면 업데이트된 데이터를 반환 false일때는 업데이트 되기전에 값 반환
+    }).exec();
+    if (!post) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = post;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const getPostById = async (ctx, next) => {
+  const { id } = ctx.params;
+  if (!ObjectId.isValid(id)) {
+    ctx.status = 400;
+    return;
+  }
+  try {
+    const post = await Post.findById(id);
+    if (!post) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.stats.post = post;
+    return next();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const checkOwnPost = (ctx, next) => {
+  // id로 찾은 포스트가 로그인 중인 사용자가 작성한 포스트인지 확인
+  const { user, post } = ctx.state;
+  if (post.user._id.toString() !== user._id) {
+    ctx.status = 403;
+    return;
+  }
+  return next();
 };
