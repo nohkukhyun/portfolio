@@ -1,11 +1,22 @@
 import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
+import { takeLatest } from 'redux-saga/effects';
+import createRequestSaga from '../lib/createRequestSaga';
+import * as authApi from '../lib/api/auth';
 
 /** redux Dusks Pattern **/
 
 //redux Action Type
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
+
+const REGISTER = 'auth/REGISTER';
+const REGISTER_SUCCESS = 'auth/REGISTER_SUCUCESS';
+const REGISTER_FAILURE = 'auth/REGISTER_FAILURE';
+
+const LOGIN = 'auth/LOGIN';
+const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
+const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
 export const changeField = createAction(
   CHANGE_FIELD,
@@ -17,6 +28,23 @@ export const changeField = createAction(
 );
 
 export const initializeForm = createAction(INITIALIZE_FORM, form => form);
+export const register = createAction(REGISTER, ({ username, password }) => ({
+  username,
+  password,
+}));
+
+export const login = createAction(LOGIN, ({ username, password }) => ({
+  username,
+  password,
+}));
+
+//리덕스 사가 생성
+const registerSaga = createRequestSaga(REGISTER, authApi.register);
+const loginSaga = createRequestSaga(LOGIN, authApi.login);
+export function* authSaga() {
+  yield takeLatest(REGISTER, registerSaga);
+  yield takeLatest(LOGIN, loginSaga);
+}
 
 const initialState = {
   register: {
@@ -45,87 +73,30 @@ const auth = handleActions(
       ...state,
       [form]: initialState[form],
     }),
+    //회원가입 성공
+    [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    //회원가입실패
+    [REGISTER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    //로그인 성공
+    [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    //로그인 실패
+    [LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
   },
   initialState,
 );
 
 export default auth;
-
-// import { ajax } from 'rxjs/ajax';
-// import { map, mergeMap, catchError } from 'rxjs/operators';
-// import { ofType } from 'redux-observable';
-
-// export const CHANGE_FIELD = 'CHANGE_FIELD';
-// export const INITIALIZE_FORM = 'INITIALIZE_FORM';
-
-// export const changeField = (payload, path) => {
-//   type: CHANGE_FIELD, payload;
-// };
-
-// export const initializeForm = () => {
-//   type: INITIALIZE_FORM, payload;
-// };
-
-// const chageFormField = () => {
-//   action$.pipe(
-//     ofType(CHANGE_FIELD),
-//     mergeMap(action =>
-//       ajax
-//         .getJSON(
-//           `https://newsapi.org/v2/top-headlines?country=kr&apiKey=1f04516a3f5b4157a5b8434ca25acc40`,
-//         )
-//         .pipe(
-//           map(
-//             response => (
-//               console.log('newsEpic', action),
-//               {
-//                 type: 'FETCH_NEWS_SUCCESS',
-//                 payload: response,
-//               }
-//             ),
-//           ),
-//           catchError(e => console.log(e)),
-//         ),
-//     ),
-//   );
-// };
-
-// export const initalState = {
-//   isLoading: false,
-// };
-
-// let nextData = {};
-// export const authReducer = (state = initalState, { type, payload, path }) => {
-//   switch (type) {
-//     case news.FETCH_NEWS_REQUEST:
-//       nextData = state;
-//       nextData = {
-//         ...state.news,
-//         isLoading: true,
-//         path: path,
-//       };
-//       return nextData;
-
-//     case news.FETCH_NEWS_SUCCESS:
-//       // console.log({ payload });
-//       let newsList = payload && payload.articles;
-//       nextData = {
-//         ...state.news,
-//         isLoading: false,
-//         path: '',
-//         newsList,
-//       };
-//       return nextData;
-
-//     case news.FETCH_NEWS_FAIL:
-//       return {
-//         ...state.news,
-//         isLoading: false,
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-
-// export default auth;
