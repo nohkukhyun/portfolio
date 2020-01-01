@@ -54,7 +54,7 @@ const Footer = styled.footer`
 const AuthTemplate = ({
   type = '',
   marginTop = '',
-  form,
+  form = {},
   handleChange,
   handleSubmit,
 }) => {

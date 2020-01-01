@@ -11,7 +11,7 @@ const AuthFormWrap = styled.div`
 const AuthForm = ({
   type = '',
   marginTop = '',
-  form,
+  form = {},
   handleChange,
   handleSubmit,
 }) => {
