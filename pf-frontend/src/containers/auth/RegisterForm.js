@@ -38,16 +38,17 @@ const RegisterForm = () => {
     dispatch(initializeForm('register'));
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (authError) {
-  //     console.log('error!!'), console.log(authError);
-  //     return;
-  //   }
-  //   if (auth) {
-  //     console.log('가입 성공');
-  //     console.log(auth);
-  //   }
-  // }, [auth, authError]);
+  //회원가입 성공 실패처리
+  useEffect(() => {
+    if (authError) {
+      console.log('error!!', authError);
+      console.log({ form });
+      return;
+    }
+    if (auth) {
+      console.log('회원가입 성공!', auth);
+    }
+  }, [auth, authError]);
 
   return (
     <AuthForm

@@ -58,12 +58,12 @@ const AuthTemplate = ({
   handleChange,
   handleSubmit,
 }) => {
-  console.log({ type });
+  // console.log({ type });
   return (
     <AuthTemplateWrap>
       <h1 className="logo">DanOh!!</h1>
       <h3 className="typeTitle">{type === 'register' ? 'Sign Up' : 'Login'}</h3>
-      <form style={{ marginTop: marginTop }}>
+      <form style={{ marginTop: marginTop }} onSubmit={handleSubmit}>
         <InputForm
           type="text"
           placeholder="id"
