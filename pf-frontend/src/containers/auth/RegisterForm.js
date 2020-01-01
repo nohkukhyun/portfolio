@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
-import { check } from '../../modules/user';
+// import { check } from '../../modules/user';
 import { withRouter } from 'react-router-dom';
 
 const RegisterForm = ({ history }) => {
@@ -46,21 +46,23 @@ const RegisterForm = ({ history }) => {
     if (auth) {
       console.log('회원가입 성공!');
       console.log(auth);
-      dispatch(check());
+      // dispatch(check());
     }
-    // console.log({ auth, authError });
+    // console.log('ee', { auth, authError });
+    // return;
     if (authError) {
       console.log('오류 발생');
       console.log(authError);
       return;
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError]);
 
+  //회원가입후 로그인 후 홈으로 이동
   useEffect(() => {
     if (user) {
       console.log('user', user);
       console.log('check api success');
-      history.push('/'); //로그인 후 홈으로 이동
+      history.push('/');
     }
   }, [history, user]);
 

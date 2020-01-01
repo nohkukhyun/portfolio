@@ -4,7 +4,7 @@ import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
   createRequestActionTypes,
 } from '../lib/createRequestSaga';
-import * as authApi from '../lib/api/auth';
+import * as authAPI from '../lib/api/auth';
 
 /** redux Dusks Pattern **/
 
@@ -41,8 +41,9 @@ export const login = createAction(LOGIN, ({ username, password }) => ({
 }));
 
 //리덕스 사가 생성
-const registerSaga = createRequestSaga(REGISTER, authApi.register);
-const loginSaga = createRequestSaga(LOGIN, authApi.login);
+const registerSaga = createRequestSaga(REGISTER, authAPI.register);
+const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);

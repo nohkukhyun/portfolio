@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Button from '../../common/Button/index';
 
 const AuthTemplateWrap = styled.div`
