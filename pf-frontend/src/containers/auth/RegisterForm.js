@@ -48,6 +48,7 @@ const RegisterForm = ({ history }) => {
       console.log(auth);
       // dispatch(check());
     }
+    //auth에 값이 안들어감
     // console.log('ee', { auth, authError });
     // return;
     if (authError) {
