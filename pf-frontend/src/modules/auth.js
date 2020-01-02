@@ -84,13 +84,13 @@ const auth = handleActions(
       ...state,
       authError: null,
       auth,
-      here: console.log('here', { state, auth }),
+      // here: console.log('here', { state, auth }),
     }),
     //회원가입실패
     [REGISTER_FAILURE]: (state, action) => ({
       ...state,
       authError: action.payload.error,
-      here: console.log('here', { state, action }),
+      // here: console.log('here', { state, action }),
     }),
     //로그인 성공
     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
