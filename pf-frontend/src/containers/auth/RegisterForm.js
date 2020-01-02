@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
-// import { check } from '../../modules/user';
+import { check } from '../../modules/user';
 import { withRouter } from 'react-router-dom';
 
 const RegisterForm = ({ history }) => {
@@ -38,6 +38,7 @@ const RegisterForm = ({ history }) => {
 
   //처음 컴포넌트 렌더링시 form을 초기화
   useEffect(() => {
+    // console.log({ auth, authError });
     dispatch(initializeForm('register'));
   }, [dispatch]);
 
@@ -45,12 +46,9 @@ const RegisterForm = ({ history }) => {
   useEffect(() => {
     if (auth) {
       console.log('회원가입 성공!');
-      console.log(auth);
-      // dispatch(check());
+      console.log({ auth });
+      dispatch(check());
     }
-    //auth에 값이 안들어감
-    // console.log('ee', { auth, authError });
-    // return;
     if (authError) {
       console.log('오류 발생');
       console.log(authError);
@@ -67,7 +65,6 @@ const RegisterForm = ({ history }) => {
     }
   }, [history, user]);
 
-  // console.log({ form, auth, user });
   return (
     <AuthForm
       type={'register'}
