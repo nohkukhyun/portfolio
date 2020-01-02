@@ -47,14 +47,14 @@ const RegisterForm = ({ history }) => {
     if (auth) {
       console.log('회원가입 성공!');
       console.log({ auth });
-      dispatch(check(auth));
+      dispatch(check());
     }
     if (authError) {
       console.log('오류 발생');
       console.log(authError);
       return;
     }
-  }, [auth, authError]);
+  }, [auth, authError, dispatch]);
 
   //회원가입후 로그인 후 홈으로 이동
   useEffect(() => {
@@ -72,6 +72,7 @@ const RegisterForm = ({ history }) => {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       marginTop={'35px'}
+      error="회원가입에"
     />
   );
 };
