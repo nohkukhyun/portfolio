@@ -71,6 +71,8 @@ const AuthForm = ({
   handleChange,
   handleSubmit,
   error = '',
+  idError = '',
+  passwordError = '',
 }) => {
   return (
     <AuthFormWrap>
@@ -105,6 +107,8 @@ const AuthForm = ({
             />
           )}
           {error && <ErrorMsg>{error}</ErrorMsg>}
+          {idError && <ErrorMsg>{idError}</ErrorMsg>}
+          {passwordError && <ErrorMsg>{passwordError}</ErrorMsg>}
           <Button
             style={{
               width: '60%',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
@@ -6,6 +6,7 @@ import { check } from '../../modules/user';
 import { withRouter } from 'react-router-dom';
 
 const RegisterForm = ({ history }) => {
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
     form: auth.register,
@@ -30,7 +31,15 @@ const RegisterForm = ({ history }) => {
   const handleSubmit = e => {
     e.preventDefault();
     const { username, password, passwordConfirm } = form;
+    if (username === '' || username.length < 3) {
+      setError('아이디는 4자 이상입니다.');
+      return;
+    }
+    if (password.length < 4 || password === '') {
+      setError('비밀번호는 4자 이상입니다.');
+    }
     if (password !== passwordConfirm) {
+      setError('비밀번호가 일치하지 않습니다.');
       return;
     }
     dispatch(register({ username, password }));
@@ -72,7 +81,7 @@ const RegisterForm = ({ history }) => {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       marginTop={'35px'}
-      error="회원가입에"
+      error={error}
     />
   );
 };
