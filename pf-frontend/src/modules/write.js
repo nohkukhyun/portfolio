@@ -22,10 +22,12 @@ export const changeField = createAction(
 
 export const portfolioWrite = createAction(
   PORTFOLIO,
-  ({ title, skils, description }) => ({
+  ({ title, skils, description, image, tags }) => ({
     title,
     skils,
     description,
+    image,
+    tags,
   }),
 );
 
@@ -39,6 +41,8 @@ const initialState = {
     title: '',
     skils: '',
     description: '',
+    image: '',
+    tags: '',
   },
   portfolioFull: null,
   portfolioError: null,

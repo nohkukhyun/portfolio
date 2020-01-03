@@ -10,6 +10,7 @@ import {
 
 function WriteForm({ history }) {
   const [error, setError] = useState(null);
+  const [img, setImg] = useState(null);
   const dispatch = useDispatch();
   const { portfolio, portfolioError, portfolioFull } = useSelector(
     ({ write }) => ({
@@ -21,7 +22,10 @@ function WriteForm({ history }) {
 
   const handleChange = e => {
     const { name, value } = e.target;
-    // console.log(name, value);
+    if (name === 'image') {
+      setImg(URL.createObjectURL(e.target.files[0]));
+    }
+    console.log(name, value);
     dispatch(
       changeField({
         portfolio: portfolio,
@@ -38,6 +42,7 @@ function WriteForm({ history }) {
       setError('제목은 3자 이상 적어주세요');
       return;
     }
+
     if (skils === '' || skils < 0) {
       setError('사용한 스킬은 하나이상 적어주세요');
       return;
@@ -56,13 +61,13 @@ function WriteForm({ history }) {
   useEffect(() => {
     if (portfolioError) {
       console.log('글쓰기 실패');
-      console.log({ portfolioError, portfolioFull, portfolio });
+      console.log(portfolioError);
       return;
     }
     if (portfolioFull) {
       console.log('글쓰기 성공');
-      console.log(portfolio);
-      // history.push('/list');
+      console.log(portfolioFull);
+      history.push('/');
     }
   }, [portfolioFull, portfolioError]);
 
@@ -72,6 +77,7 @@ function WriteForm({ history }) {
       handleSubmit={handleSubmit}
       error={error}
       portfolio={portfolio}
+      img={img}
     />
   );
 }

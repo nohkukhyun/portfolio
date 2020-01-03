@@ -6,7 +6,6 @@ export const login = ({ username, password }) =>
 
 //회원가입
 export const register = ({ username, password }) =>
-  // console.log('here authapi', { username, password });
   client.post('/api/auth/register', { username, password });
 
 //로그인 상태 확인
