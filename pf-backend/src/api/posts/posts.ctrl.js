@@ -31,7 +31,7 @@ export const write = async ctx => {
     //객체 여부 확인
     title: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required(),
+    image: Joi.string(),
     skils: Joi.string(),
     part: Joi.string(),
     tags: Joi.array().items(Joi.string()),

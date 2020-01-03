@@ -37,12 +37,17 @@ function WriteForm({ history }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const { title, skils, description } = portfolio;
+    const {
+      title = '',
+      skils = '',
+      description = '',
+      image = '',
+      part = '',
+    } = portfolio;
     if (title === '' || title.length < 2) {
       setError('제목은 3자 이상 적어주세요');
       return;
     }
-
     if (skils === '' || skils < 0) {
       setError('사용한 스킬은 하나이상 적어주세요');
       return;
@@ -51,7 +56,7 @@ function WriteForm({ history }) {
       setError('프로젝트 설명은 20자 이상 적어주세요');
       return;
     }
-    dispatch(portfolioWrite({ title, skils, description }));
+    dispatch(portfolioWrite({ title, skils, description, image, part }));
   };
 
   useEffect(() => {
@@ -67,7 +72,7 @@ function WriteForm({ history }) {
     if (portfolioFull) {
       console.log('글쓰기 성공');
       console.log(portfolioFull);
-      history.push('/');
+      // history.push('/');
     }
   }, [portfolioFull, portfolioError]);
 

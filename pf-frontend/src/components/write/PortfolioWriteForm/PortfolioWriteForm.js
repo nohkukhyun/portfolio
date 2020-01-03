@@ -68,7 +68,7 @@ const ImageForm = styled.input`
   opacity: 0;
   position: absolute;
   z-index: -1;
-  display: none;
+  /* display: none; */
 `;
 
 const TextForm = styled.textarea`
@@ -116,11 +116,11 @@ function PortfolioWriteForm({
             placeholder="skils..."
           />
           <InputForm
-            name="tags"
+            name="part"
             type="text"
-            value={portfolio.tags}
+            value={portfolio.part}
             onChange={handleChange}
-            placeholder="tag name..."
+            placeholder="part..."
           />
         </div>
         <TextForm
