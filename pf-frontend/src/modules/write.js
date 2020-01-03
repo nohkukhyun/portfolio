@@ -5,6 +5,7 @@ import createRequestSaga from '../lib/createRequestSaga';
 import * as writeAPI from '../lib/api/write';
 
 const CHANGE_FIELD = 'write/CHANGE_FIELD';
+const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
 const PORTFOLIO = 'write/PORTFOLIO';
 const PORTFOLIO_SUCCESS = 'write/PORTFOLIO_SUCCESS';
@@ -12,9 +13,9 @@ const PORTFOLIO_FAILURE = 'write/PORTFOLIO_FAILURE';
 
 export const changeField = createAction(
   CHANGE_FIELD,
-  ({ form, key, value }) => ({
-    form, //write
-    key, //username, password, passwordconfirm
+  ({ portfolio, name, value }) => ({
+    portfolio,
+    name, //username, password, passwordconfirm
     value, //실제 바꾸려는 값
   }),
 );
@@ -28,7 +29,10 @@ export const portfolioWrite = createAction(
   }),
 );
 
-export const initializeForm = createAction(INITIALIZE_FORM, form => form);
+export const initializeForm = createAction(
+  INITIALIZE_FORM,
+  portfolio => portfolio,
+);
 
 const initialState = {
   portfolio: {
@@ -36,29 +40,32 @@ const initialState = {
     skils: '',
     description: '',
   },
+  portfolioFull: null,
   portfolioError: null,
 };
+
 // Make Redux Saga!
 const portfolioWriteSaga = createRequestSaga(PORTFOLIO, writeAPI.write);
 
 export function* writeSaga() {
-  yield takeLatest(PORTFOLIO, portfolioWriteSaga());
+  yield takeLatest(PORTFOLIO, portfolioWriteSaga);
 }
 
 // handleActions을 이용한 redux
 const write = handleActions(
   {
-    [CHANGE_FIELD]: (state, { payload: { form, key, value } }) =>
+    [CHANGE_FIELD]: (state, { payload: { name, value } }) =>
       produce(state, draft => {
-        draft[form][key] = value;
+        draft.portfolio[name] = value;
       }),
-    [PORTFOLIO_SUCCESS]: (state, action) => ({
+    [PORTFOLIO_SUCCESS]: (state, { payload: portfolioFull }) => ({
       ...state,
-      form: action.payload,
+      portfolioFull,
+      portfolioError: null,
     }),
-    [PORTFOLIO_FAILURE]: (state, action) => ({
+    [PORTFOLIO_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      portfolioError: action.payload.error,
+      portfolioError: error,
     }),
   },
   initialState,

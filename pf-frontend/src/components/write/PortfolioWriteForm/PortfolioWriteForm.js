@@ -38,32 +38,47 @@ const TextForm = styled.textarea`
   border: 1px solid #ececec;
 `;
 
-function PortfolioWriteForm({ form = {}, handlechange, handleSubmit }) {
+const ErrorMsg = styled.div`
+  width: 100%;
+  position: relative;
+  color: red;
+  text-align: center;
+  font-size: 12px;
+`;
+
+function PortfolioWriteForm({
+  portfolio = {},
+  handleChange,
+  handleSubmit,
+  error = '',
+}) {
   return (
     <PortfolioWriteWrap>
       <h3>Write</h3>
-      <form onSubmit>
+      <form onSubmit={handleSubmit}>
         <div className="pfTitleSection">
           <InputForm
-            name="name"
+            name="title"
             type="text"
-            value={form.title}
-            placeholder="Project Name"
-            onChange={handlechange}
+            value={portfolio.title}
+            onChange={handleChange}
+            placeholder="project name..."
           />
           <InputForm
             name="skils"
             type="text"
-            value={form.skils}
-            placeholder="skils"
-            onChange={handlechange}
+            value={portfolio.skils}
+            onChange={handleChange}
+            placeholder="skils..."
           />
         </div>
         <TextForm
           name="description"
-          value={form.description}
+          value={portfolio.description}
+          onChange={handleChange}
           placeholder="description..."
-        ></TextForm>
+        />
+        {error && <ErrorMsg>{error}</ErrorMsg>}
         <Button
           style={{
             backgroundColor: 'gray',

@@ -47,7 +47,7 @@ const RegisterForm = ({ history }) => {
 
   //처음 컴포넌트 렌더링시 form을 초기화
   useEffect(() => {
-    // console.log({ auth, authError });
+    console.log({ form });
     dispatch(initializeForm('register'));
   }, [dispatch]);
 
