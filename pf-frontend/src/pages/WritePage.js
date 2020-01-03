@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import WriteForm from '../containers/write/WriteForm';
 
-const PfListWrap = styled.div`
+const PfWriteWrap = styled.div`
   width: 900px;
   position: absolute;
   top: 50%;
@@ -11,7 +12,11 @@ const PfListWrap = styled.div`
 `;
 
 function WritePage() {
-  return <PfListWrap>dd</PfListWrap>;
+  return (
+    <PfWriteWrap>
+      <WriteForm />
+    </PfWriteWrap>
+  );
 }
 
 export default WritePage;
