@@ -1,7 +1,8 @@
 import React from 'react';
+import PortfolioList from '../components/list/PortfolioList/index';
 
 const ListPage = () => {
-  return <div>리스트</div>;
+  return <PortfolioList />;
 };
 
 export default ListPage;

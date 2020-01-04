@@ -8,7 +8,7 @@ const PfListWrapBody = styled.div`
 `;
 
 function PortfolioList() {
-  return <PfListWrapBody></PfListWrapBody>;
+  return <PfListWrapBody>asdsad</PfListWrapBody>;
 }
 
 export default PortfolioList;

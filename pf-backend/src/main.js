@@ -4,7 +4,7 @@ import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
 import api from './api';
-import testData from './testData';
+// import testData from './testData';
 import jwtMiddleware from './lib/jwtMiddleware';
 
 const { PORT, MONGO_URI } = process.env;
@@ -13,7 +13,7 @@ mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => {
     console.log('connect to mongodb!!');
-    testData();
+    // testData();
   })
   .catch(e => {
     console.error(e);
