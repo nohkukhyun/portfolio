@@ -16,8 +16,16 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = props => {
-  return <StyledButton {...props} />;
+const Button = ({ props, history, to, ...rest }) => {
+  const onClick = e => {
+    if (to) {
+      history.push(to);
+    }
+    if (rest.onClick) {
+      rest.onClick(e);
+    }
+  };
+  return <StyledButton {...rest} onClick={onClick} />;
 };
 
 export default Button;

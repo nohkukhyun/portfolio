@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
+import Quill from 'quill';
+import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
 import Button from '../../common/Button/index';
 
@@ -8,7 +10,7 @@ const PortfolioWriteWrap = styled.div`
   -webkit-box-shadow: 5px 5px 15px 5px #dddddd;
   box-shadow: 5px 5px 15px 5px #dddddd;
   height: 100%;
-
+  background-color: #fff;
   .pfTitleSection {
     display: flex;
     position: relative;
@@ -96,6 +98,24 @@ function PortfolioWriteForm({
   error = '',
   img, //image preview,
 }) {
+  const quillElement = useRef(null);
+  const quillInstance = useRef(null);
+
+  useEffect(() => {
+    quillInstance.current = new Quill(quillElement.current, {
+      theme: 'bubble',
+      placeholder: '내용을 작성해주세요...',
+      modules: {
+        toolbar: [
+          [{ header: 1 }, { header: 2 }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }][
+            ('blockquote', 'code-block', 'link', 'image')
+          ],
+        ],
+      },
+    });
+  }, []);
   return (
     <PortfolioWriteWrap>
       <h3>Write</h3>

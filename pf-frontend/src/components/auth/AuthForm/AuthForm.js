@@ -6,7 +6,7 @@ import Button from '../../common/Button/index';
 const AuthFormWrap = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #f7f7f7;
+  background-color: #e6e7e5;
 `;
 
 const AuthTemplateWrap = styled.div`

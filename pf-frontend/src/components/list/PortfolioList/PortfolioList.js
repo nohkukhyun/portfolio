@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import SubInfo from '../../common/SubInfo';
 
 const PfListWrapBody = styled.div`
   width: 100%;
@@ -8,7 +9,12 @@ const PfListWrapBody = styled.div`
 `;
 
 function PortfolioList() {
-  return <PfListWrapBody>asdsad</PfListWrapBody>;
+  return (
+    <PfListWrapBody>
+      asda
+      <SubInfo />
+    </PfListWrapBody>
+  );
 }
 
 export default PortfolioList;

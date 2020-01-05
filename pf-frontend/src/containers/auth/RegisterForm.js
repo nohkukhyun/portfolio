@@ -61,6 +61,11 @@ const RegisterForm = ({ history }) => {
     if (authError) {
       console.log('오류 발생');
       console.log(authError);
+      if (authError.response.status === 409) {
+        setError('이미 존재하는 계정입니다.');
+        return;
+      }
+      setError('회원 가입 실패');
       return;
     }
   }, [auth, authError, dispatch]);
@@ -71,6 +76,11 @@ const RegisterForm = ({ history }) => {
       console.log('user', user);
       console.log('check api success');
       history.push('/');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (error) {
+        console.log('localStorage is not wroking', error);
+      }
     }
   }, [history, user]);
 

@@ -1,7 +1,12 @@
 import React from 'react';
+import ReadViewContainer from '../containers/read/ReadViewContainer';
 
 const PostPage = () => {
-  return <div>포스트 읽기</div>;
+  return (
+    <div>
+      <ReadViewContainer />
+    </div>
+  );
 };
 
 export default PostPage;

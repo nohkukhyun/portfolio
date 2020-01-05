@@ -1,8 +1,8 @@
 import React from 'react';
-import PortfolioList from '../components/list/PortfolioList/index';
+import PortfolioListForm from '../containers/list/PortfolioListForm';
 
 const ListPage = () => {
-  return <PortfolioList />;
+  return <PortfolioListForm></PortfolioListForm>;
 };
 
 export default ListPage;
