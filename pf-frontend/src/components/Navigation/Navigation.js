@@ -76,7 +76,7 @@ const naviData = [
   },
   {
     title: 'WORK',
-    path: '/list',
+    path: '/',
   },
   {
     title: 'ABOUT',

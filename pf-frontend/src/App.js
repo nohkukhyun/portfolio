@@ -27,7 +27,7 @@ function App() {
     <AppWrap className="App">
       <HeaderContainer />
       <AppBodyWrap>
-        <Route component={ListPage} path={'/list'} exact />
+        <Route component={ListPage} path={'/'} exact />
         <Route component={LoginPage} path={'/login'} />
         <Route component={PostPage} path={'/@:username/:postId'} />
         <Route component={WritePage} path={'/write'} />
