@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const NavigationWrap = styled.div`
@@ -75,16 +76,12 @@ const naviData = [
     path: '/',
   },
   {
-    title: 'WRITE',
-    path: '/write',
-  },
-  {
     title: 'ABOUT',
     path: '/about',
   },
 ];
 
-const Navigation = ({ user, onLogout }) => {
+const Navigation = ({ user = {}, onLogout }) => {
   const [idx, setIdx] = useState(0);
   const handleActive = i => {
     setIdx(i);
@@ -108,9 +105,20 @@ const Navigation = ({ user, onLogout }) => {
         ))}
       </NavagationList>
       <LoginSection>
-        {user ? user.username : <Link to="/login">Sign In</Link>}
+        {user && user.username === 'admin' ? (
+          <Link to="/register">Write</Link>
+        ) : (
+          ''
+        )}
         {user ? (
-          <p onClick={onLogout}>logout</p>
+          <span style={{ marginBottom: '5px' }}>{user.username}</span>
+        ) : (
+          <Link to="/login">Sign In</Link>
+        )}
+        {user ? (
+          <span onClick={onLogout} style={{ cursor: 'pointer' }}>
+            logout
+          </span>
         ) : (
           <Link to="/register">Sign Up</Link>
         )}

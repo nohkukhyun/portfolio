@@ -171,7 +171,6 @@ export const getPostById = async (ctx, next) => {
       ctx.status = 404;
       return;
     }
-    // console.log('server', { post });
     ctx.body = post;
   } catch (e) {
     ctx.throw(500, e);

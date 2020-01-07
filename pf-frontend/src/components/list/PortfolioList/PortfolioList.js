@@ -8,6 +8,7 @@ const PfListWrapBody = styled.div`
 `;
 
 function PortfolioList({ listData = [] }) {
+  // console.log({ history });
   return (
     <PfListWrapBody>
       {listData &&

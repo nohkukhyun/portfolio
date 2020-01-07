@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PortfolioList from '../../components/list/PortfolioList';
 import { portfolioList } from '../../modules/list';
-import { Action } from '../../../../../../../Library/Caches/typescript/3.7/node_modules/rxjs/internal/scheduler/Action';
 
-function PortfolioListForm() {
+function PortfolioListForm({ history }) {
   const dispatch = useDispatch();
   const { allPost, allPostError } = useSelector(({ list }) => ({
     allPost: list.allPost,
@@ -12,6 +12,7 @@ function PortfolioListForm() {
   }));
 
   useEffect(() => {
+    // console.log({ history });
     dispatch(portfolioList(allPost));
   }, [dispatch]);
 
@@ -30,4 +31,4 @@ function PortfolioListForm() {
   return <PortfolioList listData={allPost} />;
 }
 
-export default PortfolioListForm;
+export default withRouter(PortfolioListForm);
