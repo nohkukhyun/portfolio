@@ -72,8 +72,8 @@ function WriteForm({ history }) {
     if (portfolioFull) {
       console.log('글쓰기 성공');
       console.log(portfolioFull);
-      const { _id, user } = portfolioFull;
-      history.push(`/@${user.username}/${_id}`);
+      const { _id } = portfolioFull;
+      history.push(`/${_id}`);
     }
   }, [portfolioFull, portfolioError]);
 

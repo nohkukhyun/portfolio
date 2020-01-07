@@ -29,7 +29,7 @@ function App() {
       <AppBodyWrap>
         <Route component={ListPage} path={'/'} exact />
         <Route component={LoginPage} path={'/login'} />
-        <Route component={PostPage} path={'/@:username/:postId'} />
+        <Route component={PostPage} path={'/:postId'} />
         <Route component={WritePage} path={'/write'} />
         <Route component={RegisterPage} path={'/register'} />
       </AppBodyWrap>

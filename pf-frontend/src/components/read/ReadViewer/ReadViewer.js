@@ -15,7 +15,7 @@ const Title = styled.h3`
 const ErrorMsg = styled.div`
   width: 100%;
   color: red;
-  font-size: 3rem;
+  font-size: 1.5rem;
   text-align: center;
 `;
 
@@ -24,6 +24,9 @@ const ReadViewer = ({ post, error, loading }) => {
     if (error.response && error.response.status === 404) {
       return <ErrorMsg>존재하지 않는 포스트 입니다.</ErrorMsg>;
     }
+    if (error.response && error.response.status === 500) {
+      return <ErrorMsg>500 에러 입니다.</ErrorMsg>;
+    }
   }
 
   if (loading || !post) {
@@ -31,7 +34,7 @@ const ReadViewer = ({ post, error, loading }) => {
   }
 
   const { title, description, skils, part, image } = post;
-  console.log({ post });
+  console.log({ post, error, loading });
   return (
     <ReadViewerWrap>
       <Title>{title}</Title>
