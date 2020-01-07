@@ -71,12 +71,12 @@ const LoginSection = styled.div`
 
 const naviData = [
   {
-    title: 'WRITE',
-    path: '/write',
-  },
-  {
     title: 'WORK',
     path: '/',
+  },
+  {
+    title: 'WRITE',
+    path: '/write',
   },
   {
     title: 'ABOUT',
@@ -89,7 +89,7 @@ const Navigation = ({ user, onLogout }) => {
   const handleActive = i => {
     setIdx(i);
   };
-  console.log({ user });
+
   return (
     <NavigationWrap>
       <h1 className="logo">
@@ -100,6 +100,7 @@ const Navigation = ({ user, onLogout }) => {
           <li
             onClick={() => handleActive(i)}
             className={i === idx ? 'active' : ''}
+            key={`navi-${i}`}
           >
             <Link to={data.path}>{data.title}</Link>
             <div className={`line ${i === idx ? 'active' : ''}`}></div>

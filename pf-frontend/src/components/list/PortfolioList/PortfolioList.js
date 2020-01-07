@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import SubInfo from '../../common/SubInfo';
 
 const PfListWrapBody = styled.div`
   width: 100%;
@@ -8,11 +7,18 @@ const PfListWrapBody = styled.div`
   display: block;
 `;
 
-function PortfolioList() {
+function PortfolioList({ listData = [] }) {
   return (
     <PfListWrapBody>
-      asda
-      <SubInfo />
+      {listData &&
+        listData.map((data, i) => {
+          return (
+            <div>
+              {data.title}
+              <img src={data.image}></img>
+            </div>
+          );
+        })}
     </PfListWrapBody>
   );
 }

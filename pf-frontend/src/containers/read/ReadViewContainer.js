@@ -16,7 +16,6 @@ const ReadViewContainer = ({ match }) => {
 
   useEffect(() => {
     dispatch(readPost(postId));
-
     //언마운트돨때 리덕스에서 언로드 실행
     return () => {
       dispatch(unloadPost());

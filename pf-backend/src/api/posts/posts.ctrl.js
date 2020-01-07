@@ -105,6 +105,14 @@ export const list = async ctx => {
   }
 };
 
+// export const allList = async ctx => {
+//   const page = parseInt(ctx.query.page || '1', 10);
+//   if (page < 1) {
+//     ctx.status = 400;
+//     return;
+//   }
+// }
+
 export const read = async ctx => {
   ctx.body = ctx.state.post;
 };
