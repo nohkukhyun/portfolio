@@ -6,7 +6,9 @@ import {
   changeField,
   initializeForm,
   portfolioWrite,
+  imageUpload,
 } from '../../modules/write';
+import axios from 'axios';
 
 function WriteForm({ history }) {
   const [error, setError] = useState(null);
@@ -21,16 +23,17 @@ function WriteForm({ history }) {
   );
 
   const handleChange = e => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     if (name === 'image') {
       setImg(URL.createObjectURL(e.target.files[0]));
     }
-    console.log(name, value);
+    console.log(name, value, files[0]);
     dispatch(
       changeField({
         portfolio: portfolio,
         name: name,
         value,
+        files,
       }),
     );
   };
@@ -59,6 +62,14 @@ function WriteForm({ history }) {
     dispatch(portfolioWrite({ title, skils, description, image, part }));
   };
 
+  const handleImageUpload = e => {
+    e.preventDefault();
+    const file = new FormData();
+    file.append('file', setImg);
+
+    dispatch(imageUpload({ file }));
+  };
+
   useEffect(() => {
     dispatch(initializeForm(portfolio));
   }, [dispatch]);
@@ -81,6 +92,7 @@ function WriteForm({ history }) {
     <PortfolioWriteForm
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      handleImageUpload={handleImageUpload}
       error={error}
       portfolio={portfolio}
       img={img}

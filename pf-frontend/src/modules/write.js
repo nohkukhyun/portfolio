@@ -11,12 +11,17 @@ const PORTFOLIO = 'write/PORTFOLIO';
 const PORTFOLIO_SUCCESS = 'write/PORTFOLIO_SUCCESS';
 const PORTFOLIO_FAILURE = 'write/PORTFOLIO_FAILURE';
 
+const IMAGE_UPLOAD = 'write/IMAGE_UPLOAD';
+const IMAGE_UPLOAD_SUCCESS = 'write/IMAGE_UPLOAD_SUCCESS';
+const IMAGE_UPLOAD_FAILURE = 'write/IMAGE_UPLOAD_FAILURE';
+
 export const changeField = createAction(
   CHANGE_FIELD,
-  ({ portfolio, name, value }) => ({
+  ({ portfolio, name, value, files }) => ({
     portfolio,
     name, //username, password, passwordconfirm
     value, //실제 바꾸려는 값
+    files, //이미지 값
   }),
 );
 
@@ -30,6 +35,10 @@ export const portfolioWrite = createAction(
     part,
   }),
 );
+
+export const imageUpload = createAction(IMAGE_UPLOAD, ({ file }) => ({
+  file,
+}));
 
 export const initializeForm = createAction(
   INITIALIZE_FORM,
@@ -46,13 +55,17 @@ const initialState = {
   },
   portfolioFull: null,
   portfolioError: null,
+  imageFile: null,
+  imageFileError: null,
 };
 
 // Make Redux Saga!
 const portfolioWriteSaga = createRequestSaga(PORTFOLIO, writeAPI.write);
+const imageUploadSaga = createRequestSaga(IMAGE_UPLOAD, writeAPI.writeImg);
 
 export function* writeSaga() {
   yield takeLatest(PORTFOLIO, portfolioWriteSaga);
+  yield takeLatest(IMAGE_UPLOAD, imageUploadSaga);
 }
 
 // handleActions을 이용한 redux
@@ -70,6 +83,14 @@ const write = handleActions(
     [PORTFOLIO_FAILURE]: (state, { payload: error }) => ({
       ...state,
       portfolioError: error,
+    }),
+    [IMAGE_UPLOAD_SUCCESS]: (state, { payload: imageFile }) => ({
+      ...state,
+      imageFile,
+    }),
+    [IMAGE_UPLOAD_FAILURE]: (state, { payload: imageFileError }) => ({
+      ...state,
+      imageFileError,
     }),
   },
   initialState,

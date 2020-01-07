@@ -7,8 +7,6 @@ const LIST_FETCH = 'list/LIST_FETCH';
 const LIST_FETCH_SUCCESS = 'list/LIST_FETCH_SUCCESS';
 const LIST_FETCH_FAILURE = 'list/LIST_FETCH_FAILURE';
 
-const UNLOAD_POST = 'list/UNLOAD_POST'; // 페이지 벗어 났을때.
-
 export const portfolioList = createAction(LIST_FETCH);
 
 // make redux-saga!

@@ -97,25 +97,26 @@ function PortfolioWriteForm({
   handleSubmit,
   error = '',
   img, //image preview,
+  handleImageUpload,
 }) {
-  const quillElement = useRef(null);
-  const quillInstance = useRef(null);
+  // const quillElement = useRef(null);
+  // const quillInstance = useRef(null);
 
-  useEffect(() => {
-    quillInstance.current = new Quill(quillElement.current, {
-      theme: 'bubble',
-      placeholder: '내용을 작성해주세요...',
-      modules: {
-        toolbar: [
-          [{ header: 1 }, { header: 2 }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ list: 'ordered' }, { list: 'bullet' }][
-            ('blockquote', 'code-block', 'link', 'image')
-          ],
-        ],
-      },
-    });
-  }, []);
+  // useEffect(() => {
+  //   quillInstance.current = new Quill(quillElement.current, {
+  //     theme: 'bubble',
+  //     placeholder: '내용을 작성해주세요...',
+  //     modules: {
+  //       toolbar: [
+  //         [{ header: 1 }, { header: 2 }],
+  //         ['bold', 'italic', 'underline', 'strike'],
+  //         [{ list: 'ordered' }, { list: 'bullet' }][
+  //           ('blockquote', 'code-block', 'link', 'image')
+  //         ],
+  //       ],
+  //     },
+  //   });
+  // }, []);
   return (
     <PortfolioWriteWrap>
       <h3>Write</h3>
@@ -161,7 +162,7 @@ function PortfolioWriteForm({
               <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
             </svg>
           </label>
-          <div className="imageWrap">
+          <div className="imageWrap" onClick={handleImageUpload}>
             <img src={img} />
           </div>
           <ImageForm

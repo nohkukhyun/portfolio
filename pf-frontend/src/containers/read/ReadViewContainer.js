@@ -23,7 +23,7 @@ const ReadViewContainer = ({ match }) => {
     };
   }, [dispatch, postId]);
 
-  console.log({ post, match, error, loading });
+  // console.log({ post, match, error, loading });
   return (
     <div>
       <ReadViewer post={post} error={error} loading={loading} />

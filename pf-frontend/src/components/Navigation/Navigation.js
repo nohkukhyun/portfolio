@@ -106,7 +106,7 @@ const Navigation = ({ user = {}, onLogout }) => {
       </NavagationList>
       <LoginSection>
         {user && user.username === 'admin' ? (
-          <Link to="/register">Write</Link>
+          <Link to="/write">Write</Link>
         ) : (
           ''
         )}

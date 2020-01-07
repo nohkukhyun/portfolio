@@ -11,7 +11,7 @@ const HeaderContainer = () => {
   const onLogout = () => {
     dispatch(logout());
   };
-  console.log({ user });
+
   return (
     <div style={{ width: '20%' }}>
       <Navigation user={user} onLogout={onLogout} />
