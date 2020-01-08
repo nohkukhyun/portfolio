@@ -74,12 +74,11 @@ function WriteForm({ history }) {
     axios
       .post('/', file)
       .then(function(response) {
-        console.log(response); // 옆과 같이 response를 로그를 찍어볼수 있습니다. 여기서 setState등의 작업        을 통해 aws s3 에 올라간 이미지 정보를 저장할 수 있다.
+        console.log(response);
       })
       .catch(function(error) {
         console.log('upload fail...', error);
       });
-    // dispatch(imageUpload({ file }));
   };
 
   useEffect(() => {
