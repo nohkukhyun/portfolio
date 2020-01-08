@@ -13,6 +13,7 @@ import axios from 'axios';
 function WriteForm({ history }) {
   const [error, setError] = useState(null);
   const [img, setImg] = useState(null);
+  const [files, setFiles] = useState(null);
   const dispatch = useDispatch();
   const { portfolio, portfolioError, portfolioFull } = useSelector(
     ({ write }) => ({
@@ -25,9 +26,11 @@ function WriteForm({ history }) {
   const handleChange = e => {
     const { name, value, files } = e.target;
     if (name === 'image') {
+      let filesName = files[0];
       setImg(URL.createObjectURL(e.target.files[0]));
+      setFiles(filesName);
+      console.log(name, value, filesName);
     }
-    console.log(name, value, files[0]);
     dispatch(
       changeField({
         portfolio: portfolio,
@@ -47,6 +50,7 @@ function WriteForm({ history }) {
       image = '',
       part = '',
     } = portfolio;
+
     if (title === '' || title.length < 2) {
       setError('제목은 3자 이상 적어주세요');
       return;
@@ -62,12 +66,20 @@ function WriteForm({ history }) {
     dispatch(portfolioWrite({ title, skils, description, image, part }));
   };
 
-  const handleImageUpload = e => {
-    e.preventDefault();
+  const handleImageUpload = () => {
     const file = new FormData();
-    file.append('file', setImg);
-
-    dispatch(imageUpload({ file }));
+    file.append('file', files);
+    file.append('file', files.name);
+    console.log('handleImageUpload', file);
+    axios
+      .post('/', file)
+      .then(function(response) {
+        console.log(response); // 옆과 같이 response를 로그를 찍어볼수 있습니다. 여기서 setState등의 작업        을 통해 aws s3 에 올라간 이미지 정보를 저장할 수 있다.
+      })
+      .catch(function(error) {
+        console.log('upload fail...', error);
+      });
+    // dispatch(imageUpload({ file }));
   };
 
   useEffect(() => {

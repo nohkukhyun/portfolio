@@ -5,6 +5,7 @@ import checkLoggedIn from '../../lib/checkLoggedIn';
 const posts = new Router();
 posts.get('/', postsCtrl.list);
 posts.post('/', checkLoggedIn, postsCtrl.write);
+posts.post('/', postsCtrl.imageUpload);
 
 //id가 필요한 요청
 const post = new Router();

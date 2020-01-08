@@ -36,8 +36,8 @@ export const portfolioWrite = createAction(
   }),
 );
 
-export const imageUpload = createAction(IMAGE_UPLOAD, ({ file }) => ({
-  file,
+export const imageUpload = createAction(IMAGE_UPLOAD, ({ imageFile }) => ({
+  imageFile,
 }));
 
 export const initializeForm = createAction(
@@ -71,7 +71,7 @@ export function* writeSaga() {
 // handleActions을 이용한 redux
 const write = handleActions(
   {
-    [CHANGE_FIELD]: (state, { payload: { name, value } }) =>
+    [CHANGE_FIELD]: (state, { payload: { name, value, files } }) =>
       produce(state, draft => {
         draft.portfolio[name] = value;
       }),
