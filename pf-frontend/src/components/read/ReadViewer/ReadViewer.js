@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import Button from '../../common/Button/index';
 
 const ReadViewerWrap = styled.div`
   width: 100%;
@@ -79,8 +80,7 @@ const ErrorMsg = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const ReadViewer = ({ post, error, loading }) => {
-  const [file, setFile] = useState(null);
+const ReadViewer = ({ post, error, loading, handleChange, handleSubmit }) => {
   if (error) {
     if (error.response && error.response.status === 404) {
       return <ErrorMsg>존재하지 않는 포스트 입니다.</ErrorMsg>;
@@ -95,46 +95,38 @@ const ReadViewer = ({ post, error, loading }) => {
   }
   const { title, description, skils, part, image } = post;
 
-  const handleChange = e => {
-    setFile(e.target.files[0]);
-    console.log(file, '/', e);
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    const frmData = new FormData();
-    frmData.append('file', frmData);
-  };
-
   // console.log({ post, error, loading });
   return (
     <ReadViewerWrap>
-      <form onSubmit={handleSubmit}>
-        <Title>{title}</Title>
-        <ImageBox>
-          <label for="selimg"></label>
-          <ImageForm type="file" id="selimg" onChange={handleChange} />
-          {image ? (
-            <img src={image} alt="image" />
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
-            </svg>
-          )}
-        </ImageBox>
-        <ContentBox>
-          <p className="content_description">{description}</p>
-          <h3 className="content_title">사용한 기술</h3>
-          <p>{skils}</p>
-          <h3 className="content_title">참여율</h3>
-          <p>{part}</p>
-        </ContentBox>
-      </form>
+      <Title>{title}</Title>
+      <ImageBox>
+        <label for="selimg"></label>
+        <ImageForm type="file" id="selimg" onChange={handleChange} />
+        {image ? (
+          <img src="" alt="image" />
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
+          </svg>
+        )}
+      </ImageBox>
+      {image && (
+        <Button style={{ marginTop: '50px' }} onClick={handleSubmit}>
+          upload
+        </Button>
+      )}
+      <ContentBox>
+        <p className="content_description">{description}</p>
+        <h3 className="content_title">사용한 기술</h3>
+        <p>{skils}</p>
+        <h3 className="content_title">참여율</h3>
+        <p>{part}</p>
+      </ContentBox>
     </ReadViewerWrap>
   );
 };

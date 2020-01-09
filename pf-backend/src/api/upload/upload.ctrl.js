@@ -2,6 +2,7 @@ import AWS from 'aws-sdk';
 
 export const imageUpload = async (ctx, next) => {
   const file = ctx.request.files.file;
+  console.log(file);
   const ACCESS_KEY = 'AKIAIWN3TAASKJ2BZKNQ';
   const SECRET_ACCESS_KEY = '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';
   //아마존 S3 설정
@@ -13,7 +14,7 @@ export const imageUpload = async (ctx, next) => {
 
   const s3_params = {
     Bucket: 'portfolio-image-upload',
-    Key: `/${file.name}`,
+    Key: `https://s3.console.aws.amazon.com/s3/buckets/portfolio-image-upload/image/${file.name}`,
     ACL: 'public-read',
     ContentType: file.mimetype,
     Body: file.data,

@@ -1,8 +1,8 @@
 import Router from 'koa-router';
-import * as postsCtrl from './posts.ctrl';
+import * as uploadCtrl from './upload.ctrl';
 
 const upload = new Router();
-upload.put('/', postsCtrl.imageUpload);
+upload.post('/', uploadCtrl.imageUpload);
 
 //id가 필요한 요청
 // const post = new Router();

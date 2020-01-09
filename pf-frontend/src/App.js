@@ -18,9 +18,10 @@ const AppWrap = styled.div`
 `;
 
 const AppBodyWrap = styled.div`
-  width: 100%;
+  width: 80%;
   background-color: #e6e7e5;
-  position: relative;
+  position: absolute;
+  right: 0;
 `;
 function App() {
   return (

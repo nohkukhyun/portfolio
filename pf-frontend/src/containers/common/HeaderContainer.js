@@ -12,8 +12,18 @@ const HeaderContainer = () => {
     dispatch(logout());
   };
 
+  const style = {
+    width: '20%',
+    position: 'fixed',
+    left: '0',
+    top: '0',
+    height: '100vh',
+    backgroundColor: '#fff',
+    zIndex: '1',
+  };
+
   return (
-    <div style={{ width: '20%' }}>
+    <div style={style}>
       <Navigation user={user} onLogout={onLogout} />
     </div>
   );
