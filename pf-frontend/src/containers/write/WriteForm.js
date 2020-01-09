@@ -63,7 +63,10 @@ function WriteForm({ history }) {
       setError('프로젝트 설명은 20자 이상 적어주세요');
       return;
     }
-    dispatch(portfolioWrite({ title, skils, description, image, part }));
+
+    const frmData = new FormData();
+    frmData.append('file', files);
+    dispatch(portfolioWrite({ title, skils, description, part }, frmData));
   };
 
   const handleImageUpload = () => {

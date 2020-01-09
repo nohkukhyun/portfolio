@@ -28,7 +28,7 @@ function PortfolioListForm({ history }) {
     }
   }, [allPost, allPostError]);
 
-  return <PortfolioList listData={allPost} />;
+  return <PortfolioList listData={allPost} history={history} />;
 }
 
 export default withRouter(PortfolioListForm);
