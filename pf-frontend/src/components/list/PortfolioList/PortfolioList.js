@@ -39,15 +39,17 @@ function PortfolioList({ listData = [], history }) {
   return (
     <PfListWrap>
       <PfListWrapBody>
-        {listData &&
-          listData.map((data, i) => {
-            return (
-              <PfImage onClick={() => handleClick(data._id)}>
-                {data.title}
-                {data.image && <img src={data.image} alt="thumbnail" />}
-              </PfImage>
-            );
-          })}
+        {listData
+          ? listData &&
+            listData.map((data, i) => {
+              return (
+                <PfImage onClick={() => handleClick(data._id)}>
+                  {data.title}
+                  {data.image && <img src={data.image} alt="thumbnail" />}
+                </PfImage>
+              );
+            })
+          : null}
       </PfListWrapBody>
     </PfListWrap>
   );

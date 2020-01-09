@@ -89,7 +89,7 @@ const Navigation = ({ user = {}, onLogout, location }) => {
   const { pathname } = location;
   let pName = pathname;
 
-  console.log({ location });
+  // console.log({ location });
   return (
     <NavigationWrap>
       <h1 className="logo">
