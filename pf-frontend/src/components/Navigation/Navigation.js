@@ -81,12 +81,15 @@ const naviData = [
   },
 ];
 
-const Navigation = ({ user = {}, onLogout }) => {
+const Navigation = ({ user = {}, onLogout, location }) => {
   const [idx, setIdx] = useState(0);
   const handleActive = i => {
     setIdx(i);
   };
+  const { pathname } = location;
+  let pName = pathname;
 
+  console.log({ location });
   return (
     <NavigationWrap>
       <h1 className="logo">
@@ -96,7 +99,7 @@ const Navigation = ({ user = {}, onLogout }) => {
         {naviData.map((data, i) => (
           <li
             onClick={() => handleActive(i)}
-            className={i === idx ? 'active' : ''}
+            className={data.path === pName ? 'active' : ''}
             key={`navi-${i}`}
           >
             <Link to={data.path}>{data.title}</Link>
@@ -127,4 +130,4 @@ const Navigation = ({ user = {}, onLogout }) => {
   );
 };
 
-export default Navigation;
+export default withRouter(Navigation);

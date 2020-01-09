@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const ReadViewerWrap = styled.div`
   width: 100%;
   position: relative;
+  padding: 50px;
 `;
 
 const Title = styled.h3`
@@ -12,11 +13,55 @@ const Title = styled.h3`
   text-align: left;
 `;
 
+const ImageBox = styled.div`
+  width: 100%;
+  height: 25rem;
+  border: 1px solid #1089ff;
+  position: relative;
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    fill: #1089ff;
+  }
+`;
+
+const ContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 30px;
+  .content_title {
+    font-size: 1.4rem;
+    color: #333;
+    display: inline-block;
+    text-align: left;
+    margin-top: 2.5rem;
+    margin-bottom: 0;
+  }
+  .content_description {
+    font-size: 1.2rem;
+    color: #333;
+    display: inline-block;
+    text-align: left;
+  }
+  p {
+    font-size: 1.2rem;
+    display: inline-block;
+    text-align: left;
+  }
+`;
+
 const ErrorMsg = styled.div`
   width: 100%;
   color: red;
   font-size: 1.5rem;
   text-align: center;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const ReadViewer = ({ post, error, loading }) => {
@@ -38,10 +83,27 @@ const ReadViewer = ({ post, error, loading }) => {
   return (
     <ReadViewerWrap>
       <Title>{title}</Title>
-      <img src={image} alt="name" />
-      <p>{description}</p>
-      <p>{skils}</p>
-      <p>{part}</p>
+      <ImageBox>
+        {image ? (
+          <img src={image} alt="image" />
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z" />
+          </svg>
+        )}
+      </ImageBox>
+      <ContentBox>
+        <p className="content_description">{description}</p>
+        <h3 className="content_title">사용한 기술</h3>
+        <p>{skils}</p>
+        <h3 className="content_title">참여율</h3>
+        <p>{part}</p>
+      </ContentBox>
     </ReadViewerWrap>
   );
 };
