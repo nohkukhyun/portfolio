@@ -80,7 +80,14 @@ const ErrorMsg = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const ReadViewer = ({ post, error, loading, handleChange, handleSubmit }) => {
+const ReadViewer = ({
+  post,
+  error,
+  loading,
+  handleChange,
+  handleSubmit,
+  files,
+}) => {
   if (error) {
     if (error.response && error.response.status === 404) {
       return <ErrorMsg>존재하지 않는 포스트 입니다.</ErrorMsg>;
@@ -95,7 +102,7 @@ const ReadViewer = ({ post, error, loading, handleChange, handleSubmit }) => {
   }
   const { title, description, skils, part, image } = post;
 
-  // console.log({ post, error, loading });
+  // console.log({ files });
   return (
     <ReadViewerWrap>
       <Title>{title}</Title>

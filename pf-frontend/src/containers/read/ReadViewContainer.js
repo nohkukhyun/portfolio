@@ -28,7 +28,7 @@ const ReadViewContainer = ({ match }) => {
     const frmData = new FormData();
     frmData.append('file', files);
     frmData.append('file', files.name);
-    console.log({ files });
+    console.log('ReadViewContainer', { files });
     dispatch(fileUpload(files));
   };
 
@@ -51,6 +51,7 @@ const ReadViewContainer = ({ match }) => {
         loading={loading}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        files={files}
       />
     </div>
   );

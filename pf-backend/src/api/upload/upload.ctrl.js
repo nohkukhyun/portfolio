@@ -15,6 +15,7 @@ export const imageUpload = async (ctx, next) => {
   const s3_params = {
     Bucket: 'portfolio-image-upload',
     Key: `https://s3.console.aws.amazon.com/s3/buckets/portfolio-image-upload/image/${file.name}`,
+    // Key: 'http://localhost:3000/upload',
     ACL: 'public-read',
     ContentType: file.mimetype,
     Body: file.data,
