@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import ModalContainer from '../../containers/common/Modal/ModalContainer';
+import Modal from '../../components/common/Modal/Modal';
 
 const NavigationWrap = styled.div`
   width: 20%;
@@ -81,7 +83,7 @@ const naviData = [
   },
 ];
 
-const Navigation = ({ user = {}, onLogout, location }) => {
+const Navigation = ({ user = {}, onLogout, location, handleModal, modal }) => {
   const [idx, setIdx] = useState(0);
   const handleActive = i => {
     setIdx(i);
@@ -89,7 +91,7 @@ const Navigation = ({ user = {}, onLogout, location }) => {
   const { pathname } = location;
   let pName = pathname;
 
-  // console.log({ location });
+  // console.log({ modal });
   return (
     <NavigationWrap>
       <h1 className="logo">
@@ -119,12 +121,23 @@ const Navigation = ({ user = {}, onLogout, location }) => {
           <Link to="/login">Sign In</Link>
         )}
         {user ? (
-          <span onClick={onLogout} style={{ cursor: 'pointer' }}>
+          <span
+            onClick={onLogout}
+            style={{ cursor: 'pointer', marginBottom: '5px' }}
+          >
             logout
           </span>
         ) : (
-          <Link to="/register">Sign Up</Link>
+          <Link
+            to="/register"
+            style={{ cursor: 'pointer', marginBottom: '5px' }}
+          >
+            Sign Up
+          </Link>
         )}
+        <span onClick={handleModal} style={{ cursor: 'pointer' }}>
+          info
+        </span>
       </LoginSection>
     </NavigationWrap>
   );

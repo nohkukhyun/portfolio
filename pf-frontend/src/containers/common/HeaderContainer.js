@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Navigation from '../../components/Navigation';
 import { logout } from '../../modules/user';
 
 const HeaderContainer = () => {
-  const { user } = useSelector(({ user }) => ({
+  const { user, modal } = useSelector(({ user, modal }) => ({
     user: user.user,
+    modal: modal,
   }));
+
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logout());
@@ -22,9 +24,18 @@ const HeaderContainer = () => {
     zIndex: '1',
   };
 
+  const handleModal = () => {};
+
+  // console.log('HeaderContainer', { modal });
+
   return (
     <div style={style}>
-      <Navigation user={user} onLogout={onLogout} />
+      <Navigation
+        user={user}
+        modal={modal}
+        onLogout={onLogout}
+        handleModal={handleModal}
+      />
     </div>
   );
 };
