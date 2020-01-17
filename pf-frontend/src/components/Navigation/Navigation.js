@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import ModalContainer from '../../containers/common/Modal/ModalContainer';
-import Modal from '../../components/common/Modal/Modal';
 
 const NavigationWrap = styled.div`
   width: 20%;
@@ -91,7 +89,6 @@ const Navigation = ({ user = {}, onLogout, location, handleModal, modal }) => {
   const { pathname } = location;
   let pName = pathname;
 
-  // console.log({ modal });
   return (
     <NavigationWrap>
       <h1 className="logo">
@@ -135,9 +132,7 @@ const Navigation = ({ user = {}, onLogout, location, handleModal, modal }) => {
             Sign Up
           </Link>
         )}
-        <span onClick={handleModal} style={{ cursor: 'pointer' }}>
-          info
-        </span>
+        <span style={{ cursor: 'pointer' }}>info</span>
       </LoginSection>
     </NavigationWrap>
   );
